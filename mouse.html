@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!-- Load the Paper.js library -->
+<script type="text/javascript" src="paperjs-v0/dist/paper-full.js"></script>
+<!-- Define inlined PaperScript associate it with myCanvas -->
+<script type="text/paperscript" canvas="myCanvas">
+	var myPath;
+
+function onMouseDown(event) {
+	myPath = new Path();
+	myPath.strokeColor = 'black';
+}
+
+function onMouseDrag(event) {
+	myPath.add(event.point);
+}
+
+function onMouseUp(event) {
+	var myCircle = new Path.Circle({
+		center: event.point,
+		radius: event.delta.length / 4
+	});
+    if (event.delta.length < 250) {
+        myCircle.strokeColor = 'red';
+    } else {
+        myCircle.strokeColor = 'blue';
+    }	
+	myCircle.fillColor = 'white';
+    myCircle.onDoubleClick = function(event) {
+        this.fillColor = 'green';
+    };
+}
+</script>
+<style>
+    html,
+body {
+    margin: 0;
+    overflow: hidden;
+    height: 100%;
+}
+
+/* Scale canvas with resize attribute to full size */
+canvas[resize] {
+    width: 100%;
+    height: 100%;
+}
+</style>
+</head>
+<body>
+	<canvas id="myCanvas" resize="true"></canvas>
+</body>
+</html>
